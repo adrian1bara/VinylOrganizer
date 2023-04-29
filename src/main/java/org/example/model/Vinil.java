@@ -2,6 +2,7 @@ package org.example.model;
 
 import org.example.comun.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Vinil {
@@ -10,10 +11,9 @@ public class Vinil {
 
     public GenVinil gen;
     public TipVinil tip;
-    public int pret;
+    public double pret;
     public StareVinil stare;
     public Date dataAparitie;
-    public CuloareVinil culoare;
     public DimensiuneVinil dimensiune;
 
     public int getId() {
@@ -40,11 +40,11 @@ public class Vinil {
         this.tip = tip;
     }
 
-    public int getPret() {
+    public double getPret() {
         return pret;
     }
 
-    public void setPret(int pret) {
+    public void setPret(double pret) {
         this.pret = pret;
     }
 
@@ -64,19 +64,23 @@ public class Vinil {
         this.dataAparitie = dataAparitie;
     }
 
-    public CuloareVinil getCuloare() {
-        return culoare;
-    }
-
-    public void setCuloare(CuloareVinil culoare) {
-        this.culoare = culoare;
-    }
-
     public DimensiuneVinil getDimensiune() {
         return dimensiune;
     }
 
     public void setDimensiune(DimensiuneVinil dimensiune) {
         this.dimensiune = dimensiune;
+    }
+
+    @Override
+    public String toString() {
+        return "Vinil: " +
+                "id=" + id +
+                ", gen=" + gen +
+                ", tip=" + tip +
+                ", pret=" + pret +
+                ", stare=" + stare +
+                ", dataAparitie=" + new SimpleDateFormat("dd/MM/yyyy").format(dataAparitie) +
+                ", dimensiune=" + dimensiune;
     }
 }

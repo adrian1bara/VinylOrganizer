@@ -3,76 +3,87 @@ package org.example;
 import org.example.model.User;
 import org.example.model.Vinil;
 
+import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
 
+import static org.example.UserLogic.login;
+import static org.example.UserLogic.salvareUser;
+import static org.example.VinilLogic.recomandarePret;
+import static org.example.VinilLogic.salvarePretRecomandat;
+import static org.example.VinilLogic.afisareListaViniluri;
+import static org.example.VinilLogic.salvareVinil;
+
 public class Main {
-    public static void main(String[] args) throws ParseException {
-        System.out.println("APLICATIA A PORNIT");
-        // TODO user log in
+
+    public static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException, ParseException {
+        System.out.println("APLICATIA A PORNIT! "
+                + "\n" + "Alegeti operatiunea dorita: "
+                + "\n" + "    1. Autentificare."+ "\n"
+                + "    2. Creeaza-ti user si parola.");
         User user = new User();
-
-        //TODO trebuie adaptat ca inputul sa fie conform ENUMs
-        Scanner scanner = new Scanner(System.in);
-        VinilLogic vinilLogic = new VinilLogic();
-        System.out.println("Va rugam alegeti operatiunea dorita: 1 = Adaugare Vinil  2 = Afiseaza vinilurile adaugate");
-        if(scanner.nextInt() == 1) {
-            Scanner scanner1 = new Scanner(System.in);
-
-            String gen;
-            System.out.println("Introduceti genul vinilului: ");
-            gen = scanner1.nextLine();
-
-            String stare;
-            System.out.println("Introduceti stare vinilului: ");
-            stare = scanner1.nextLine();
-
-            Date dataAparitiei;
-            System.out.println("Introduceti data aparitiei vinilului: ");
-            String dateFormat = "dd/MM/yyyy";
-            dataAparitiei = new SimpleDateFormat(dateFormat).parse(scanner.nextLine());
-
-
-            String dimensiune;
-            System.out.println("Introduceti dimensiunea vinilului: ");
-            dimensiune = scanner1.nextLine();
-
-            String culoare;
-            System.out.println("Introduceti culoarea vinilului: ");
-            culoare = scanner1.nextLine();
-
-            String tip;
-            System.out.println("Introduceti tipul vinilului: ");
-            tip = scanner1.nextLine();
-
-            int pret;
-            System.out.println("Introduceti pretul vinilului: ");
-            pret = scanner.nextInt();
-
-            Vinil vinil;
-            vinil = vinilLogic.construiesteVinil(gen, tip, pret, stare, dataAparitiei, culoare, dimensiune);
-            vinilLogic.adaugareVinil(vinil, user);
-            System.out.println("Vinilul a fost salvat cu succes. Doriti o recomandare de pret? DA/NU");
-            if (scanner1.nextLine() == "DA") {
-                int pretRecomandat = vinilLogic.recomandarePret(vinil);
-                System.out.println("Pretul recomandat este: " + pretRecomandat + ". Doriti sa-l salvati? DA/NU");
-                if (scanner1.nextLine() == "DA") {
-                    vinilLogic.salvarePretRecomandat(vinil, user, pretRecomandat);
-                } else {
-                    // ce facem?
-                }
-            } else {
-                // ce facem?
-            }
-
-
-
-        } else if (scanner.nextInt() == 2) {
-           List<Vinil> listaViniluri =  vinilLogic.afisareListaViniluri(user);
+        int optiune = scanner.nextInt();
+        if(optiune == 1){
+            user = login();
+        } else if(optiune == 2){
+            user = salvareUser();
         }
 
+        System.out.println("Va rugam alegeti operatiunea dorita: "
+                + "\n" + "    1. Adaugare Vinil. "
+                + "\n" + "    2. Afiseaza vinilurile adaugate pana acum."
+                + "\n" + "    3. Inchide aplicatia. ");
+         while(scanner.hasNext()){
+             switch (scanner.nextInt()){
+                 case 1: cazulUnu(user);
+                     break;
+                 case 2: cazulDoi(user);
+                     break;
+                 case 3: cazulTrei();
+                 default: System.out.println("Alegere invalida!");
+             }
+         }
+
+
+    }
+
+    public static void cazulUnu(User user) throws IOException, ParseException {
+        Vinil vinil = salvareVinil(user);
+        System.out.println("Vinilul a fost salvat cu succes. Doriti o recomandare de pret?"
+                + "\n" + "     1. DA. "
+                + "\n" + "     2. NU. ");
+        if (scanner.nextInt() == 1) {
+            double pretRecomandat = recomandarePret(vinil);
+            System.out.println("Pretul recomandat este: "
+                    + pretRecomandat
+                    + ". Doriti sa-l salvati?"
+                    + "\n" + "     1. DA. "
+                    + "\n" + "     2. NU. ");
+            if (scanner.nextInt() == 1) {
+                salvarePretRecomandat(vinil, user, pretRecomandat);
+            } else {
+            }
+        } else {
+        }
+
+        System.out.println("Va rugam alegeti operatiunea dorita: "
+                + "\n" + "    1. Adaugare Vinil. "
+                + "\n" + "    2. Afiseaza vinilurile adaugate pana acum."
+                + "\n" + "    3. Inchide aplicatia. ");
+    }
+
+    public static void cazulDoi(User user) throws IOException {
+        afisareListaViniluri(user);
+        System.out.println("Va rugam alegeti operatiunea dorita: "
+                + "\n" + "    1. Adaugare Vinil. "
+                + "\n" + "    2. Afiseaza vinilurile adaugate pana acum."
+                + "\n" + "    3. Inchide aplicatia. ");
+    }
+
+    public static void cazulTrei(){
+        System.out.println("Aplicatia s-a oprit.");
+        System.exit(0);
     }
 }
