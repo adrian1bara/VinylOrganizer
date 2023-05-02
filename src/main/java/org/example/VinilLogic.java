@@ -180,7 +180,7 @@ public class VinilLogic {
         return pretRecomandat;
     }
 
-    public static void salvarePretRecomandat (Vinil vinil, User user, double pretRecomandat) throws IOException {
+    public static void salvarePretRecomandat (Vinil vinil, User user, float pretRecomandat) throws IOException {
         vinil.setPret(pretRecomandat);
         String linieNoua = user.getNume().toString() + " " + vinil.toString();
 

@@ -55,7 +55,7 @@ public class Main {
                 + "\n" + "     1. DA. "
                 + "\n" + "     2. NU. ");
         if (scanner.nextInt() == 1) {
-            double pretRecomandat = recomandarePret(vinil);
+            float pretRecomandat = (float) recomandarePret(vinil);
             System.out.println("Pretul recomandat este: "
                     + pretRecomandat
                     + ". Doriti sa-l salvati?"

@@ -44,7 +44,7 @@ public class Vinil {
         return pret;
     }
 
-    public void setPret(double pret) {
+    public void setPret(float pret) {
         this.pret = pret;
     }
 
